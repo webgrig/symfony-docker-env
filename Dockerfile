@@ -28,7 +28,7 @@ RUN apt-get install -y libjpeg62-turbo-dev \
 COPY ./src/apache2/httpd.conf /home/configs/httpd.conf
 RUN cat /home/configs/httpd.conf >> /etc/apache2/apache2.conf
 
-COPY ./src/apache2/hosts/symf.doc.conf  /etc/apache2/sites-enabled/
+COPY ./src/apache2/hosts/*  /etc/apache2/sites-enabled/
 
 
 RUN a2enmod rewrite
