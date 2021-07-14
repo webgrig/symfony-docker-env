@@ -1,8 +1,6 @@
 version: '3.9'
 services:
   symfony:
-    depends_on:
-      - mysql
     volumes:
       - ./symfony:/var/www/html/symfony.docker
       - ./src/apache2/hosts:/etc/apache2/sites-enabled
@@ -11,8 +9,10 @@ services:
     container_name: symfony
     ports:
       - 8081:80
+    depends_on:
+      - db
     links:
-      - mysql
+      - db
     restart: always
   adminer:
     image: adminer
@@ -34,5 +34,15 @@ services:
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+  phpmyadmin:
+        container_name: symfony_phpmyadmin
+        image: phpmyadmin/phpmyadmin
+        ports:
+            - "8083:80"
+        environment:
+            PMA_SERVERNAME: 127.0.0.1
+            PMA_PORT: 3300
+        links:
+            - db
 
 
